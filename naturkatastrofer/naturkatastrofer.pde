@@ -1,39 +1,84 @@
 Table table;
-TextBox lande;
-TextBox aar;
-int year = 7; //året er sat til 2010. Minimum er 3 for 2014, og for hvert år under 2010 lægger man bare 1 til.
+ArrayList<String> land = new ArrayList<String>();
+String country;
+String year;
+String[] consolData = new String[24725];
+int counter = 0;
+Textbox1 inputLande = new Textbox1();
+Textbox2 inputAar = new Textbox2();
+int box = 1;
+String deaths = "0";
+
 
 void setup() {
-  size(500,500);
-  
-  lande = new TextBox(width / 4, (int) (height / 12 + height / 6 ), width / 2, height / 12, "Land");
-aar = new TextBox(width / 4, (int) (height / 12 + height / 6 + (((width / 13)+ height / 12))), width / 2, height / 12, "År");
-ArrayList<String> land = new ArrayList<String>();
-  
+  size(500, 500);
   table = loadTable("DeathsNaturalDisasters.csv"); 
-  for(int i = 0; i<table.getRowCount();i++){
-    if(i==214){  
-      break;
+  for (int i = 0; i<table.getRowCount(); i++) {
+    country = table.getRow(i).getString(1);
+    TableRow r=table.getRow(i);
+    r.getColumnCount();
+    //println(country);
+    for (int c=2; c<r.getColumnCount(); c++) {
+      year = table.getRow(0).getString(c);
+      println(country, year, r.getInt(c));
+      //consolData[counter++]=("LINE"+counter+": "+r.getString(1)+" "+r.getInt(c));
+      consolData[counter++]=(counter+","+r.getString(1)+","+table.getRow(0).getString(c)+","+r.getInt(c));
     }
-  println("Deaths in " + table.getRow(i+1).getString(1) + " in 2010: " + table.getRow(i+1).getInt(year));
+    saveStrings("cosolOutput.txt", consolData);
+    //println("Deaths in " + land + ":" + table.getRow(i).getInt(0));
+  }
+  background(40);
+  textSize(15);
+}
+void draw() {
+  inputLande.skriv();
+  inputAar.skriv();
+  printDoede();
+}
+void mousePressed() {
+  if (mouseX>70&&mouseX<400&&mouseY>50&&mouseY<80) {
+    box=1;
+  } else if (mouseX>70&&mouseX<400&&mouseY>100&&mouseY<130) {
+    box=2;
+  } else {
+    box=0;
   }
 }
 
-void draw(){
-  Felt();
+void keyPressed() {
+  if (key==TAB&&box==1) {
+    box++;
+  } else if (key==TAB&&box==2) {
+    box--;
+  }
+  if (box==1) {
+    inputLande.addText(key);
+  }
+  if (box==2) {
+    inputAar.addText(key);
+  }
 }
 
-void Felt(){
-  lande.tegnTextBox();
-  aar.tegnTextBox();  
-}
+void printDoede() {
+  /*for (int i = 0; i<table.getRowCount(); i++) {
+   country = table.getRow(i).getString(1);
+   TableRow t=table.getRow(i);
+   t.getColumnCount();
+   for (int c=2; c<t.getColumnCount(); c++) {
+   year = table.getRow(0).getString(c);
+   if(inputLande.Land==country&&inputAar.Aar==year){
+   deaths=table.getRow(i).getInt(c);
+   }
+   }
+   }*/
+  for (int i = 0; i<consolData.length; i++) {
+    String[] loa = split(consolData[i], ",");  
+    //println(loa[1]+" "+loa[2]+" "+loa[3]);
+    if (loa[1]==inputLande.Land&&loa[2]==inputAar.Aar) {
+      deaths=loa[3];
+    }
+  }
 
- void mouseClicked() {
-        lande.KlikTjek(mouseX,mouseY);
-        aar.KlikTjek(mouseX,mouseY);
-    }
-    
-   void keyTyped() {
-        lande.keyindput(key);
-        aar.keyindput(key);
-    }
+  fill(255);
+  text(deaths, 300, 250);
+}
