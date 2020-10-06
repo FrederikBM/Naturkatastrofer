@@ -7,7 +7,6 @@ int counter = 0;
 Textbox1 inputLande = new Textbox1();
 Textbox2 inputAar = new Textbox2();
 int box = 1;
-String deaths = "0";
 
 
 void setup() {
@@ -21,11 +20,9 @@ void setup() {
     for (int c=2; c<r.getColumnCount(); c++) {
       year = table.getRow(0).getString(c);
       println(country, year, r.getInt(c));
-      //consolData[counter++]=("LINE"+counter+": "+r.getString(1)+" "+r.getInt(c));
       consolData[counter++]=(counter+","+r.getString(1)+","+table.getRow(0).getString(c)+","+r.getInt(c));
     }
     saveStrings("cosolOutput.txt", consolData);
-    //println("Deaths in " + land + ":" + table.getRow(i).getInt(0));
   }
   background(40);
   textSize(15);
@@ -60,17 +57,6 @@ void keyPressed() {
 }
 
 void printDoede() {
-  /*for (int i = 0; i<table.getRowCount(); i++) {
-   country = table.getRow(i).getString(1);
-   TableRow t=table.getRow(i);
-   t.getColumnCount();
-   for (int c=2; c<t.getColumnCount(); c++) {
-   year = table.getRow(0).getString(c);
-   if(inputLande.Land==country&&inputAar.Aar==year){
-   deaths=table.getRow(i).getInt(c);
-   }
-   }
-   }*/
   for (int i = 0; i<consolData.length; i++) {
     String[] loa = split(consolData[i], ",");  
     //println(loa[1]+" "+loa[2]+" "+loa[3]);
@@ -78,7 +64,7 @@ void printDoede() {
       noStroke();
       fill(40);
       rect(0, 130, 500, 370);
-      textSize(22);
+      textSize(20);
       fill(255);
       text(loa[3]+" person(er) døde i "+loa[1]+" i år "+loa[2], 10, 250);
       textSize(15);

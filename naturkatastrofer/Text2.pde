@@ -4,12 +4,10 @@ class Textbox2 {
   void addText(char c) {
     if (keyPressed && key == BACKSPACE && Aar.length()!=0) {
       Aar = Aar.substring( 0, Aar.length()-1 );
-    } else if (key != BACKSPACE && key != SHIFT && key != TAB) {
+    } else if (key == BACKSPACE || keyCode == 16 || key == TAB || keyCode == 20 || keyCode == 13) {
+    } else {
       Aar = Aar+c;
-      println(Aar);
-      println("2002");
     }
-    //println(keyCode);
   }
 
   void skriv() {
