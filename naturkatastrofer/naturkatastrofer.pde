@@ -74,11 +74,14 @@ void printDoede() {
   for (int i = 0; i<consolData.length; i++) {
     String[] loa = split(consolData[i], ",");  
     //println(loa[1]+" "+loa[2]+" "+loa[3]);
-    if (loa[1]==inputLande.Land&&loa[2]==inputAar.Aar) {
-      deaths=loa[3];
+    if (loa[1].equalsIgnoreCase(inputLande.Land)&&loa[2].equalsIgnoreCase(inputAar.Aar)) {
+      noStroke();
+      fill(40);
+      rect(0, 130, 500, 370);
+      textSize(22);
+      fill(255);
+      text(loa[3]+" person(er) døde i "+loa[1]+" i år "+loa[2], 10, 250);
+      textSize(15);
     }
   }
-
-  fill(255);
-  text(deaths, 300, 250);
 }
